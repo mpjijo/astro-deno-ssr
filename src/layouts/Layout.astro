@@ -1,0 +1,60 @@
+---
+import Sidebar from '../components/Sidebar.astro'; 
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en"  class="h-full bg-gray-100">
+  <head>
+    <meta name="description" content={title}/>
+    <meta property="og:title" content={title}/>
+    <meta property="og:url" content={Astro.url}/>
+    <meta property="og:description" content={title}>
+    <meta property="og:locale" content="en_US" /> 
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image"/>   
+    <!--<meta name="twitter:site" content="@Medigy" />-->
+    <meta name="twitter:title" content={title}/>
+    <meta name="twitter:description" content={title}/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="canonical" href={Astro.url}/>
+    
+    
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <slot name="in-head" />
+  </head>
+  <body class="" style="bgcolor:#fafaf9!important">
+    
+    <div>
+      <section class="mx-auto items-center gap-8 px-4 sm:px-6 lg:px-8 mt-4 pb-8"
+        style="min-height: 600px;">
+        <section>
+          <main>
+                  <div class="relative px-0 pt-0 pb-0 lg:px-0 lg:pt-0 lg:pb-0 xl:p-0 w-full">
+                    <div class="relative mx-auto">
+                      
+                      <slot />
+                  </div>
+                </div>
+          </main>
+        </section>
+      </section>
+      
+      <style is:global>
+        /* Improve Page speed */
+        /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
+        img {
+          content-visibility: auto;
+        }
+      </style>
+     
+    </div>
+  </body>
+</html>

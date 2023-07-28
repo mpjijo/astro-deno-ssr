@@ -1,0 +1,49 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+// Enable Hybrid mode
+export const prerender = true;
+
+export const helloCollection = "hello" as const; // export required because Astro needs it in getStaticPaths()
+export const helloEntries = await getCollection<typeof helloCollection>(helloCollection);
+export async function getStaticPaths() {
+  return helloEntries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<style>
+  .container {
+      max-width: revert;
+  }
+</style>
+<Layout title="Medigy HDO-ILO" ><span style="display:none;">""</span>
+  <div class="container mx-auto py-6 mt-6 overflow-hidden bg-white rounded-lg ring-1 ring-slate-900/10">
+    <div class="flex flex-wrap ">
+      <div class="w-full lg:w-1/4 px-4">
+        <nav class="space-y-1" aria-label="Sidebar">               
+          <article class="prose max-w-screen-xl">   
+            <ul class="max-w text-gray-500 list-none dark:text-gray-400 pl-0" >
+            {
+              helloEntries.map((helloEntry) => (
+              <li class="text-sm font-medium pl-0 ml-0 mt-0 mb-0" style="margin: 0 0">
+                <a href={helloEntry.data.aliases} class="block px-4 py-2">{helloEntry.data.title}</a>
+              </li>
+                ))
+            }
+            </ul>
+          </article>       
+        </nav>      
+      </div>
+      <div class="w-full lg:w-3/4 px-4">
+        <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-900 pb-8"></h1>
+        <article class="prose max-w-screen-xl">
+          <Content />
+        </article>
+      </div>
+    </div>
+  </div> 
+</Layout>
